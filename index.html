@@ -2,334 +2,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Universal Design Tool Manual</title>
-  <style>
-    :root {
-      --bg: #f6f8fb;
-      --paper: #ffffff;
-      --ink: #203047;
-      --muted: #5e6e84;
-      --line: #d9e3f0;
-      --accent: #86aeda;
-      --accent-deep: #4d78a8;
-      --soft: #eaf2fb;
-      --soft-2: #f4f8fc;
-      --shadow: 0 12px 30px rgba(32,48,71,.08);
-      --radius: 20px;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at top left, #eef5fd 0, transparent 22rem),
-        linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
-    }
-    .layout {
-      display: grid;
-      grid-template-columns: 280px minmax(0, 1fr);
-      min-height: 100vh;
-    }
-    .sidebar {
-      position: sticky;
-      top: 0;
-      align-self: start;
-      height: 100vh;
-      padding: 24px 18px;
-      border-right: 1px solid var(--line);
-      background: rgba(255,255,255,.72);
-      backdrop-filter: blur(12px);
-    }
-    .brand {
-      padding: 16px;
-      background: linear-gradient(180deg, #ffffff, #f6fbff);
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      box-shadow: var(--shadow);
-      margin-bottom: 18px;
-    }
-    .brand small {
-      display: block;
-      color: var(--accent-deep);
-      font-weight: 700;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-      font-size: .72rem;
-    }
-    .brand h1 {
-      font-size: 1.1rem;
-      line-height: 1.3;
-      margin: 0 0 8px 0;
-    }
-    .brand p {
-      margin: 0;
-      color: var(--muted);
-      font-size: .92rem;
-      line-height: 1.45;
-    }
-    .nav {
-      display: grid;
-      gap: 8px;
-      margin-top: 18px;
-    }
-    .nav-link {
-      text-decoration: none;
-      color: var(--ink);
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 11px 12px;
-      font-size: .94rem;
-      line-height: 1.3;
-      transition: .18s ease;
-    }
-    .nav-link:hover {
-      border-color: var(--accent);
-      background: var(--soft);
-      transform: translateX(2px);
-    }
-    .sidebar-note {
-      margin-top: 18px;
-      padding: 14px;
-      border-radius: 16px;
-      background: var(--soft-2);
-      border: 1px solid var(--line);
-      color: var(--muted);
-      font-size: .88rem;
-      line-height: 1.5;
-    }
-    .main {
-      padding: 34px clamp(18px, 4vw, 42px) 48px;
-    }
-    .hero {
-      background: linear-gradient(135deg, #ffffff 0%, #f4f8fd 65%, #eef5fd 100%);
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      box-shadow: var(--shadow);
-      padding: clamp(24px, 5vw, 42px);
-      margin-bottom: 24px;
-    }
-    .eyebrow {
-      display: inline-block;
-      color: var(--accent-deep);
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      font-size: .78rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-    .hero h1 {
-      margin: 0;
-      font-size: clamp(1.9rem, 5vw, 3rem);
-      line-height: 1.05;
-      letter-spacing: -.02em;
-    }
-    .hero p {
-      max-width: 72ch;
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.7;
-      margin: 14px 0 0;
-    }
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    .hero-btn {
-      border: 1px solid var(--line);
-      background: #fff;
-      color: var(--ink);
-      padding: 10px 14px;
-      border-radius: 999px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: .92rem;
-    }
-    .hero-btn.primary {
-      background: var(--accent-deep);
-      border-color: var(--accent-deep);
-      color: #fff;
-    }
-    .jump-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
-      margin: 22px 0 26px;
-    }
-    .jump-card {
-      text-decoration: none;
-      color: inherit;
-      padding: 18px;
-      border-radius: 20px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.82);
-      box-shadow: 0 8px 20px rgba(32,48,71,.05);
-      transition: .18s ease;
-    }
-    .jump-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--accent);
-      background: #fff;
-    }
-    .jump-kicker {
-      color: var(--accent-deep);
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      font-size: .72rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .jump-title {
-      font-weight: 700;
-      line-height: 1.35;
-    }
-    .search-wrap {
-      margin: 0 0 24px;
-      position: sticky;
-      top: 18px;
-      z-index: 5;
-    }
-    .search-bar {
-      width: 100%;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.9);
-      backdrop-filter: blur(12px);
-      border-radius: 18px;
-      padding: 14px 16px;
-      font-size: 1rem;
-      box-shadow: var(--shadow);
-      outline: none;
-    }
-    .section-card {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      padding: clamp(18px, 4vw, 28px);
-      margin: 0 0 22px;
-      scroll-margin-top: 84px;
-    }
-    .section-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: start;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-    .section-card h2 {
-      margin: 0;
-      font-size: clamp(1.2rem, 2vw, 1.7rem);
-      line-height: 1.2;
-    }
-    .meta-pill {
-      white-space: nowrap;
-      border: 1px solid var(--line);
-      background: var(--soft);
-      color: var(--accent-deep);
-      border-radius: 999px;
-      padding: 8px 12px;
-      font-size: .85rem;
-      font-weight: 700;
-    }
-    .section-intro p {
-      margin: 0 0 12px;
-      line-height: 1.75;
-      color: var(--muted);
-    }
-    .criteria-wrap {
-      display: grid;
-      gap: 12px;
-      margin-top: 18px;
-    }
-    .criterion {
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: linear-gradient(180deg, #ffffff, #fbfdff);
-      overflow: hidden;
-    }
-    .criterion[open] {
-      border-color: #c5d8ee;
-      box-shadow: 0 10px 22px rgba(77,120,168,.08);
-    }
-    .criterion summary {
-      list-style: none;
-      display: grid;
-      grid-template-columns: 54px 1fr;
-      gap: 14px;
-      align-items: start;
-      cursor: pointer;
-      padding: 16px;
-    }
-    .criterion summary::-webkit-details-marker { display: none; }
-    .criterion-number {
-      width: 38px;
-      height: 38px;
-      display: grid;
-      place-items: center;
-      border-radius: 12px;
-      background: var(--soft);
-      color: var(--accent-deep);
-      font-weight: 800;
-      font-size: .9rem;
-      border: 1px solid #d6e4f3;
-    }
-    .criterion-title {
-      font-weight: 700;
-      line-height: 1.45;
-      padding-top: 6px;
-    }
-    .criterion-body {
-      padding: 0 16px 18px 68px;
-    }
-    .criterion-body p {
-      margin: 0 0 12px;
-      color: var(--muted);
-      line-height: 1.72;
-    }
-    .criterion mark {
-      background: #fff0b8;
-      padding: 0 .12em;
-      border-radius: .2em;
-    }
-    .empty-note {
-      color: var(--muted);
-      font-style: italic;
-    }
-    @media (max-width: 960px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-      .sidebar {
-        position: relative;
-        height: auto;
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-      }
-      .search-wrap {
-        position: relative;
-        top: 0;
-      }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Universal Design Exhibit Manual</title>
+<style>
+:root{
+  --bg:#f6f8fb;
+  --paper:#ffffff;
+  --ink:#203047;
+  --muted:#5e6e84;
+  --line:#d9e3f0;
+  --accent:#86aeda;
+  --accent-deep:#4d78a8;
+  --soft:#eaf2fb;
+  --soft-2:#f4f8fc;
+  --shadow:0 12px 30px rgba(32,48,71,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ink);
+  background:radial-gradient(circle at top left, #eef5fd 0, transparent 22rem), linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+}
+.layout{display:grid;grid-template-columns:280px minmax(0,1fr);min-height:100vh}
+.sidebar{
+  position:sticky;top:0;align-self:start;height:100vh;padding:24px 18px;
+  border-right:1px solid var(--line);background:rgba(255,255,255,.72);backdrop-filter:blur(12px)
+}
+.brand{
+  padding:16px;background:linear-gradient(180deg,#ffffff,#f6fbff);border:1px solid var(--line);
+  border-radius:22px;box-shadow:var(--shadow);margin-bottom:18px
+}
+.brand small{display:block;color:var(--accent-deep);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;font-size:.72rem}
+.brand h1{font-size:1.1rem;line-height:1.3;margin:0 0 8px 0}
+.brand p{margin:0;color:var(--muted);font-size:.92rem;line-height:1.45}
+.nav{display:grid;gap:8px;margin-top:18px}
+.nav-link{
+  text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:14px;
+  padding:11px 12px;font-size:.94rem;line-height:1.3;transition:.18s ease
+}
+.nav-link:hover{border-color:var(--accent);background:var(--soft);transform:translateX(2px)}
+.sidebar-note{
+  margin-top:18px;padding:14px;border-radius:16px;background:var(--soft-2);
+  border:1px solid var(--line);color:var(--muted);font-size:.88rem;line-height:1.5
+}
+.main{padding:34px clamp(18px, 4vw, 42px) 48px}
+.hero{
+  background:linear-gradient(135deg,#ffffff 0%,#f4f8fd 65%,#eef5fd 100%);
+  border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);
+  padding:clamp(24px,5vw,42px);margin-bottom:24px
+}
+.eyebrow{display:inline-block;color:var(--accent-deep);text-transform:uppercase;letter-spacing:.08em;font-size:.78rem;font-weight:700;margin-bottom:10px}
+.hero h1{margin:0;font-size:clamp(1.9rem,5vw,3rem);line-height:1.05;letter-spacing:-.02em}
+.hero p{max-width:72ch;color:var(--muted);font-size:1rem;line-height:1.7;margin:14px 0 0}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero-btn{
+  border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 14px;border-radius:999px;
+  text-decoration:none;font-weight:600;font-size:.92rem
+}
+.hero-btn.primary{background:var(--accent-deep);border-color:var(--accent-deep);color:#fff}
+.jump-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:22px 0 26px}
+.jump-card{
+  text-decoration:none;color:inherit;padding:18px;border-radius:20px;border:1px solid var(--line);
+  background:rgba(255,255,255,.82);box-shadow:0 8px 20px rgba(32,48,71,.05);transition:.18s ease
+}
+.jump-card:hover{transform:translateY(-2px);border-color:var(--accent);background:#fff}
+.jump-kicker{color:var(--accent-deep);text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;font-weight:700;margin-bottom:8px}
+.jump-title{font-weight:700;line-height:1.35}
+.search-wrap{margin:0 0 24px;position:sticky;top:18px;z-index:5}
+.search-bar{
+  width:100%;border:1px solid var(--line);background:rgba(255,255,255,.92);
+  backdrop-filter:blur(12px);border-radius:18px;padding:14px 16px;font-size:1rem;box-shadow:var(--shadow);outline:none
+}
+.section-card{
+  background:var(--paper);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);
+  padding:clamp(18px,4vw,28px);margin:0 0 22px;scroll-margin-top:84px
+}
+.section-top{display:flex;justify-content:space-between;align-items:start;gap:12px;margin-bottom:12px}
+.section-card h2{margin:0;font-size:clamp(1.2rem,2vw,1.7rem);line-height:1.2}
+.meta-pill{
+  white-space:nowrap;border:1px solid var(--line);background:var(--soft);color:var(--accent-deep);
+  border-radius:999px;padding:8px 12px;font-size:.85rem;font-weight:700
+}
+.section-intro p{margin:0 0 12px;line-height:1.75;color:var(--muted)}
+.criteria-wrap{display:grid;gap:12px;margin-top:18px}
+.criterion{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#ffffff,#fbfdff);overflow:hidden}
+.criterion[open]{border-color:#c5d8ee;box-shadow:0 10px 22px rgba(77,120,168,.08)}
+.criterion summary{
+  list-style:none;display:grid;grid-template-columns:54px 1fr;gap:14px;align-items:start;cursor:pointer;padding:16px
+}
+.criterion summary::-webkit-details-marker{display:none}
+.criterion-number{
+  width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:var(--soft);
+  color:var(--accent-deep);font-weight:800;font-size:.9rem;border:1px solid #d6e4f3
+}
+.criterion-title{font-weight:700;line-height:1.45;padding-top:6px}
+.criterion-body{padding:0 16px 18px 68px}
+.criterion-body p{margin:0 0 12px;color:var(--muted);line-height:1.72}
+mark{background:#fff0a6;padding:.04em .15em;border-radius:.25em}
+.mobile-nav-toggle{display:none}
+.mobile-nav-overlay{display:none}
+
+@media (max-width: 960px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{
+    position:fixed;top:0;left:0;width:min(82vw,320px);height:100vh;z-index:30;border-right:1px solid var(--line);
+    border-bottom:0;transform:translateX(-102%);transition:transform .22s ease;box-shadow:0 20px 40px rgba(32,48,71,.16)
+  }
+  .sidebar.open{transform:translateX(0)}
+  .mobile-nav-overlay{
+    display:block;position:fixed;inset:0;background:rgba(20,31,47,.35);backdrop-filter:blur(3px);
+    opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:25
+  }
+  .mobile-nav-overlay.open{opacity:1;pointer-events:auto}
+  .main{padding-top:86px}
+  .mobile-nav-toggle{
+    display:inline-flex;align-items:center;gap:8px;position:fixed;top:14px;left:14px;z-index:35;
+    border:1px solid var(--line);background:rgba(255,255,255,.94);backdrop-filter:blur(10px);color:var(--ink);
+    padding:11px 14px;border-radius:999px;font-size:.92rem;font-weight:700;box-shadow:var(--shadow)
+  }
+  .search-wrap{position:relative;top:0}
+}
+</style>
 </head>
 <body>
-  <div class="layout">
-    <aside class="sidebar">
-      <div class="brand">
-        <small>UD Manual</small>
-        <h1>Interactive Format of Manual</h1>
-        <p>This is a manual for the Universal Design Tool. A document version of this manual is available on Google Drive.</p>
-      </div>
+<button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Open navigation">☰ Menu</button>
+<div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
 
-      <nav class="nav">
-        <a class="nav-link" href="#administration">Administration and Use</a>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <small>Interactive Version</small>
+      <h1>Exhibit Review Manual</h1>
+      <p>This is a manual for the Universal Design Tool. A document version of this manual is available on Google Drive.</p>
+    </div>
+    <nav class="nav">
+      <a class="nav-link" href="#administration">Administration and Use</a>
 <a class="nav-link" href="#principle-1">Principle 1: Equitable Use</a>
 <a class="nav-link" href="#principle-2">Principle 2: Flexibility in Use</a>
 <a class="nav-link" href="#principle-3">Principle 3: Simple and Intuitive Use</a>
@@ -337,90 +147,76 @@
 <a class="nav-link" href="#principle-5">Principle 5: Tolerance for Error</a>
 <a class="nav-link" href="#principle-6">Principle 6: Low Physical Effort</a>
 <a class="nav-link" href="#principle-7">Principle 7: Size and Space for Approach and Use</a>
-      </nav>
+    </nav>
+    <div class="sidebar-note">
+      Tip: use the search bar to find words like <strong>sensory</strong>, <strong>mobility</strong>, <strong>tactile</strong>, or <strong>caregivers</strong>.
+    </div>
+  </aside>
 
-      <div class="sidebar-note">
-        Tip: use the search bar to find words like <strong>sensory</strong>, <strong>mobility</strong>, <strong>tactile</strong>, or <strong>caregivers</strong>.
+  <main class="main">
+    <section class="hero">
+      <div class="eyebrow">Universal Design Exhibit Checklist</div>
+      <h1>Manual</h1>
+      <p>This version is built for navigation rather than paper-style reading. Click each section below to navigate to the principle or use the sidebar for navigation. You can also use the search bar to search for specific words or items.</p>
+      <div class="hero-actions">
+        <a class="hero-btn primary" href="#administration">Start with administration</a>
+        <a class="hero-btn" href="#principle-1">Go to the principles</a>
       </div>
-    </aside>
+    </section>
 
-    <main class="main">
-      <section class="hero" id="top">
-        <div class="eyebrow">Universal Design Exhibit Checklist</div>
-        <h1>Manual</h1>
-        <p>
-          This version is built for navigation rather than paper-style reading. Click each section below to navigate to the principle or use the sidebar for navigation. 
-          You can also use the search bar to search for specific words or items (scroll down to see results).
-        </p>
-        <div class="hero-actions">
-          <a class="hero-btn primary" href="#administration">Start with administration</a>
-          <a class="hero-btn" href="#principle-1">Go to the principles</a>
-        </div>
-      </section>
+    <div class="jump-grid">
+      <a class="jump-card" href="#principle-1">
+            <div class="jump-kicker">Section</div>
+            <div class="jump-title">Principle 1: Equitable Use</div>
+        </a>
+<a class="jump-card" href="#principle-2">
+            <div class="jump-kicker">Section</div>
+            <div class="jump-title">Principle 2: Flexibility in Use</div>
+        </a>
+<a class="jump-card" href="#principle-3">
+            <div class="jump-kicker">Section</div>
+            <div class="jump-title">Principle 3: Simple and Intuitive Use</div>
+        </a>
+<a class="jump-card" href="#principle-4">
+            <div class="jump-kicker">Section</div>
+            <div class="jump-title">Principle 4: Perceptible Information</div>
+        </a>
+<a class="jump-card" href="#principle-5">
+            <div class="jump-kicker">Section</div>
+            <div class="jump-title">Principle 5: Tolerance for Error</div>
+        </a>
+<a class="jump-card" href="#principle-6">
+            <div class="jump-kicker">Section</div>
+            <div class="jump-title">Principle 6: Low Physical Effort</div>
+        </a>
+<a class="jump-card" href="#principle-7">
+            <div class="jump-kicker">Section</div>
+            <div class="jump-title">Principle 7: Size and Space for Approach and Use</div>
+        </a>
+    </div>
 
-      <div class="jump-grid">
-        
-    <a class="jump-card" href="#principle-1">
-      <div class="jump-kicker">Section</div>
-      <div class="jump-title">Principle 1: Equitable Use</div>
-    </a>
+    <div class="search-wrap">
+      <input id="searchInput" class="search-bar" type="search" placeholder="Search the manual..." aria-label="Search the manual" />
+    </div>
+
     
-
-    <a class="jump-card" href="#principle-2">
-      <div class="jump-kicker">Section</div>
-      <div class="jump-title">Principle 2: Flexibility in Use</div>
-    </a>
-    
-
-    <a class="jump-card" href="#principle-3">
-      <div class="jump-kicker">Section</div>
-      <div class="jump-title">Principle 3: Simple and Intuitive Use</div>
-    </a>
-    
-
-    <a class="jump-card" href="#principle-4">
-      <div class="jump-kicker">Section</div>
-      <div class="jump-title">Principle 4: Perceptible Information</div>
-    </a>
-    
-
-    <a class="jump-card" href="#principle-5">
-      <div class="jump-kicker">Section</div>
-      <div class="jump-title">Principle 5: Tolerance for Error</div>
-    </a>
-    
-
-    <a class="jump-card" href="#principle-6">
-      <div class="jump-kicker">Section</div>
-      <div class="jump-title">Principle 6: Low Physical Effort</div>
-    </a>
-    
-
-    <a class="jump-card" href="#principle-7">
-      <div class="jump-kicker">Section</div>
-      <div class="jump-title">Principle 7: Size and Space for Approach and Use</div>
-    </a>
-    
-      </div>
-
-      <div class="search-wrap">
-        <input id="searchInput" class="search-bar" type="search" placeholder="Search the manual..." aria-label="Search the manual" />
-      </div>
-
-      
     <section class="section-card" id="administration">
       <div class="section-top">
         <div>
           <div class="eyebrow">Universal Design Exhibit Manual</div>
           <h2>Administration and Use</h2>
         </div>
-        <div class="meta-pill">General</div>
+        <div class="meta-pill">0 criteria</div>
       </div>
-      <div class="section-intro"><p>The Universal Design Exhibit Checklist is an observation-based checklist intended to support reflection on how museum exhibits support broad participation. The tool is designed to document strengths and areas for growth related to Universal Design principles and is not intended to produce a numerical score or determine compliance. The tool is completed through live observation of an exhibit during typical use. Exhibits may be observed during free play, facilitated activities, or a combination of both. Observations may be completed in a single session or across multiple visits, depending on the goals of the assessment. Each section of the tool is organized by a Universal Design principle and includes a series of observable criteria. Reviewers should read each criterion and consider whether the exhibit meets the item based on what is observed during use.</p>
+      <div class="section-intro">
+        <p>The Universal Design Exhibit Checklist is an observation-based checklist intended to support reflection on how museum exhibits support broad participation. The tool is designed to document strengths and areas for growth related to Universal Design principles and is not intended to produce a numerical score or determine compliance. The tool is completed through live observation of an exhibit during typical use. Exhibits may be observed during free play, facilitated activities, or a combination of both. Observations may be completed in a single session or across multiple visits, depending on the goals of the assessment. Each section of the tool is organized by a Universal Design principle and includes a series of observable criteria. Reviewers should read each criterion and consider whether the exhibit meets the item based on what is observed during use.</p>
 <p>For each criterion, a checkbox is provided. If the exhibit clearly meets the item, the checkbox may be marked to indicate a “yes” response. When a criterion is more complex, inconsistently observed, or dependent on context, reviewers may instead use the optional rating scale to indicate whether the item is Present, Partially Present, Not Present, or Not Applicable. The rating scale is optional and does not need to be used for every item.</p>
 <p>Space is provided for comments throughout the tool. Reviewers are encouraged to use this space to record brief observations, examples, or contextual factors that influenced their responses. Comments may include notes about how children or caregivers interacted with the exhibit, environmental factors such as crowding or noise, or specific barriers or supports observed.</p>
-<p>There are no right or wrong responses. Reviewers should use their professional judgment and focus on observed use rather than intended design. Not all criteria will apply equally to every exhibit, and some items may be marked as Not Applicable based on the exhibit’s purpose. The results from the tool should be interpreted collectively to identify patterns, strengths, and opportunities for enhancing universally designed play experiences. Individual items are not intended to stand alone, and the tool should be used as a guide for discussion, reflection, and planning rather than evaluation or scoring.</p></div>
-      <div class="criteria-wrap"></div>
+<p>There are no right or wrong responses. Reviewers should use their professional judgment and focus on observed use rather than intended design. Not all criteria will apply equally to every exhibit, and some items may be marked as Not Applicable based on the exhibit’s purpose. The results from the tool should be interpreted collectively to identify patterns, strengths, and opportunities for enhancing universally designed play experiences. Individual items are not intended to stand alone, and the tool should be used as a guide for discussion, reflection, and planning rather than evaluation or scoring.</p>
+      </div>
+      <div class="criteria-wrap">
+        
+      </div>
     </section>
     
 
@@ -432,14 +228,17 @@
         </div>
         <div class="meta-pill">4 criteria</div>
       </div>
-      <div class="section-intro"><p>This section focuses on whether children with diverse abilities can participate in the exhibit without being separated, singled out, or required to use alternative versions of play experiences. Reviewers should consider whether the core experience of the exhibit is shared by all users, even when different modes of use or engagement are present.</p></div>
+      <div class="section-intro">
+        <p>This section focuses on whether children with diverse abilities can participate in the exhibit without being separated, singled out, or required to use alternative versions of play experiences. Reviewers should consider whether the core experience of the exhibit is shared by all users, even when different modes of use or engagement are present.</p>
+      </div>
       <div class="criteria-wrap">
+        
             <details class="criterion">
               <summary>
                 <span class="criterion-number">01</span>
-                <span class="criterion-title">The exhibit includes opportunities for physically challenging play (e.g., climbing, crawling, stairs) without making these the only means of engaging with the core experience.</span>
+                <span class="criterion-title" data-original="The exhibit includes opportunities for physically challenging play (e.g., climbing, crawling, stairs) without making these the only means of engaging with the core experience.">The exhibit includes opportunities for physically challenging play (e.g., climbing, crawling, stairs) without making these the only means of engaging with the core experience.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines whether physical challenge is offered in ways that support development while remaining usable by a wide range of users. Reviewers should observe whether climbing, crawling, stairs, or similar challenges are present and whether these elements are balanced with alternative ways to engage in the exhibit’s primary play or learning goal. The intent is not to remove challenge, but to ensure that physically demanding elements are not the sole gateway to participation.&lt;/p&gt;">
                 <p>This item examines whether physical challenge is offered in ways that support development while remaining usable by a wide range of users. Reviewers should observe whether climbing, crawling, stairs, or similar challenges are present and whether these elements are balanced with alternative ways to engage in the exhibit’s primary play or learning goal. The intent is not to remove challenge, but to ensure that physically demanding elements are not the sole gateway to participation.</p>
               </div>
             </details>
@@ -448,9 +247,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">02</span>
-                <span class="criterion-title">Children using wheeled mobility aids (e.g., wheelchairs, walkers) can approach, reach, and interact with the same core play features as peers.</span>
+                <span class="criterion-title" data-original="Children using wheeled mobility aids (e.g., wheelchairs, walkers) can approach, reach, and interact with the same core play features as peers.">Children using wheeled mobility aids (e.g., wheelchairs, walkers) can approach, reach, and interact with the same core play features as peers.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item focuses on functional use rather than the presence of specific devices. Reviewers should observe whether children using wheeled mobility aids can independently approach the exhibit, position themselves, and interact with the main play components. Engagement should involve the same core features used by peers, not secondary or separate elements. Assistance from caregivers should not be required for basic use.&lt;/p&gt;">
                 <p>This item focuses on functional use rather than the presence of specific devices. Reviewers should observe whether children using wheeled mobility aids can independently approach the exhibit, position themselves, and interact with the main play components. Engagement should involve the same core features used by peers, not secondary or separate elements. Assistance from caregivers should not be required for basic use.</p>
               </div>
             </details>
@@ -459,9 +258,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">03</span>
-                <span class="criterion-title">No separate or “special” version of the activity is required to participate.</span>
+                <span class="criterion-title" data-original="No separate or “special” version of the activity is required to participate.">No separate or “special” version of the activity is required to participate.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines whether participation is integrated rather than segregated. Reviewers should look for design features that allow children with different abilities to engage together in the same space and activity. The item is met when usable by a wide range of users features are embedded within the exhibit itself rather than offered as separate adaptations.&lt;/p&gt;">
                 <p>This item examines whether participation is integrated rather than segregated. Reviewers should look for design features that allow children with different abilities to engage together in the same space and activity. The item is met when usable by a wide range of users features are embedded within the exhibit itself rather than offered as separate adaptations.</p>
               </div>
             </details>
@@ -470,13 +269,14 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">04</span>
-                <span class="criterion-title">The exhibit does not rely on a single sensory modality (e.g., only visual or only auditory).</span>
+                <span class="criterion-title" data-original="The exhibit does not rely on a single sensory modality (e.g., only visual or only auditory).">The exhibit does not rely on a single sensory modality (e.g., only visual or only auditory).</span>
               </summary>
-              <div class="criterion-body">
-                <p>This item addresses whether access to play depends on one dominant sensory channel. Reviewers should consider whether children can engage with the exhibit through more than one sensory pathway. Reliance on a single modality may limit participation for children with sensory differences or disabilities.</p>
+              <div class="criterion-body" data-original="&lt;p&gt;This item addresses whether use to play depends on one dominant sensory channel. Reviewers should consider whether children can engage with the exhibit through more than one sensory pathway. Reliance on a single modality may limit participation for children with sensory differences or disabilities.&lt;/p&gt;">
+                <p>This item addresses whether use to play depends on one dominant sensory channel. Reviewers should consider whether children can engage with the exhibit through more than one sensory pathway. Reliance on a single modality may limit participation for children with sensory differences or disabilities.</p>
               </div>
             </details>
-            </div>
+            
+      </div>
     </section>
     
 
@@ -488,14 +288,17 @@
         </div>
         <div class="meta-pill">5 criteria</div>
       </div>
-      <div class="section-intro"><p>This supports variation in how children can play in an environment. The principle in general includes guidelines such as choice in methods of use, accommodating use for right- and left-hand dominant users, and having adaptability to users’ pace (Connell, 1997). Reviewers should consider differences in pace, intensity, developmental level, and whether the exhibit allows children to make choices about how they can participate.</p></div>
+      <div class="section-intro">
+        <p>This supports variation in how children can play in an environment. The principle in general includes guidelines such as choice in methods of use, accommodating use for right- and left-hand dominant users, and having adaptability to users’ pace (Connell, 1997). Reviewers should consider differences in pace, intensity, developmental level, and whether the exhibit allows children to make choices about how they can participate.</p>
+      </div>
       <div class="criteria-wrap">
+        
             <details class="criterion">
               <summary>
                 <span class="criterion-number">01</span>
-                <span class="criterion-title">The exhibit supports multiple ways to engage (e.g. watch, touch, move, pretend, manipulate).</span>
+                <span class="criterion-title" data-original="The exhibit supports multiple ways to engage (e.g. watch, touch, move, pretend, manipulate).">The exhibit supports multiple ways to engage (e.g. watch, touch, move, pretend, manipulate).</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines whether children can engage with the exhibit in more than one manner. Reviewers should look for opportunities to observe, explore physically, manipulate objects, engage in imaginative play, or interact socially. The item is met when engagement limited to a single action or behavior. Tools in the exhibit must enable use in a variety of ways. For example, magnetic tiles may be used in a variety of ways; however, rigid toys like electronic dolls that only complete one action with a button are not flexible in use. For exhibits that have excessive tools and toys in the exhibit, the majority should reflect open-ended use. Not all must be flexible to receive a yes; it is the reviewer’s discretion to interpret if the exhibit reflects flexible use. The following are some questions that can be asked when evaluating this criterion. Even if some toys in the exhibit are not flexible, does the exhibit provide reflect flexibility as a whole? Are there a variety of ways to engage with the exhibit?&lt;/p&gt;">
                 <p>This item examines whether children can engage with the exhibit in more than one manner. Reviewers should look for opportunities to observe, explore physically, manipulate objects, engage in imaginative play, or interact socially. The item is met when engagement limited to a single action or behavior. Tools in the exhibit must enable use in a variety of ways. For example, magnetic tiles may be used in a variety of ways; however, rigid toys like electronic dolls that only complete one action with a button are not flexible in use. For exhibits that have excessive tools and toys in the exhibit, the majority should reflect open-ended use. Not all must be flexible to receive a yes; it is the reviewer’s discretion to interpret if the exhibit reflects flexible use. The following are some questions that can be asked when evaluating this criterion. Even if some toys in the exhibit are not flexible, does the exhibit provide reflect flexibility as a whole? Are there a variety of ways to engage with the exhibit?</p>
               </div>
             </details>
@@ -504,9 +307,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">02</span>
-                <span class="criterion-title">Children can choose how long and how intensely to engage with the activity.</span>
+                <span class="criterion-title" data-original="Children can choose how long and how intensely to engage with the activity.">Children can choose how long and how intensely to engage with the activity.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This criterion is easily observed when it comes to the length of engagement. However, the intensity of engagement is nuanced and requires more interpretation. Reviewers should observe whether children are able to enter and exit play freely, adjust their pace, or vary their level of effort without disrupting the activity or relying on adult control. Exhibits that force prolonged engagement or fixed pacing may limit flexibility. Reviewers should consider if participants that input different levels of intensity receive equal or similar opportunities of play.&lt;/p&gt;">
                 <p>This criterion is easily observed when it comes to the length of engagement. However, the intensity of engagement is nuanced and requires more interpretation. Reviewers should observe whether children are able to enter and exit play freely, adjust their pace, or vary their level of effort without disrupting the activity or relying on adult control. Exhibits that force prolonged engagement or fixed pacing may limit flexibility. Reviewers should consider if participants that input different levels of intensity receive equal or similar opportunities of play.</p>
               </div>
             </details>
@@ -515,9 +318,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">03</span>
-                <span class="criterion-title">The exhibit supports independent engagement and cooperative play without requiring adult mediation.</span>
+                <span class="criterion-title" data-original="The exhibit supports independent engagement and cooperative play without requiring adult mediation.">The exhibit supports independent engagement and cooperative play without requiring adult mediation.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines whether the design allows children to engage alone or with others naturally. Reviewers should look for features that support parallel play, shared use, or collaboration without requiring adults to explain rules, manage turn-taking, or structure interaction. Adult involvement may enhance play but should not be necessary for basic engagement.&lt;/p&gt;">
                 <p>This item examines whether the design allows children to engage alone or with others naturally. Reviewers should look for features that support parallel play, shared use, or collaboration without requiring adults to explain rules, manage turn-taking, or structure interaction. Adult involvement may enhance play but should not be necessary for basic engagement.</p>
               </div>
             </details>
@@ -526,9 +329,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">04</span>
-                <span class="criterion-title">Materials or components can be used in more than one way (not a single “right” outcome).</span>
+                <span class="criterion-title" data-original="Materials or components can be used in more than one way (not a single “right” outcome).">Materials or components can be used in more than one way (not a single “right” outcome).</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item addresses openness and creativity in play. Reviewers should consider whether materials allow for exploration, experimentation, or multiple outcomes rather than one correct way to use them. Exhibits that support open-ended use tend to accommodate a wider range of abilities and play preferences.&lt;/p&gt;">
                 <p>This item addresses openness and creativity in play. Reviewers should consider whether materials allow for exploration, experimentation, or multiple outcomes rather than one correct way to use them. Exhibits that support open-ended use tend to accommodate a wider range of abilities and play preferences.</p>
               </div>
             </details>
@@ -537,13 +340,14 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">05</span>
-                <span class="criterion-title">The exhibit can be used by children at different developmental stages and abilities without modification.</span>
+                <span class="criterion-title" data-original="The exhibit can be used by children at different developmental stages and abilities without modification.">The exhibit can be used by children at different developmental stages and abilities without modification.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines whether children of varying ages or developmental levels can engage meaningfully with the same exhibit. Reviewers should observe whether the exhibit naturally supports different skill levels through scaling, variation, or open-ended design, rather than requiring changes or adaptations to be usable.&lt;/p&gt;">
                 <p>This item examines whether children of varying ages or developmental levels can engage meaningfully with the same exhibit. Reviewers should observe whether the exhibit naturally supports different skill levels through scaling, variation, or open-ended design, rather than requiring changes or adaptations to be usable.</p>
               </div>
             </details>
-            </div>
+            
+      </div>
     </section>
     
 
@@ -555,14 +359,17 @@
         </div>
         <div class="meta-pill">4 criteria</div>
       </div>
-      <div class="section-intro"><p>This principle focuses on whether children can understand how to engage with the exhibit without relying on verbal instruction, reading, or adult explanation. Reviewers should consider whether the design itself communicates how play begins and unfolds.</p></div>
+      <div class="section-intro">
+        <p>This principle focuses on whether children can understand how to engage with the exhibit without relying on verbal instruction, reading, or adult explanation. Reviewers should consider whether the design itself communicates how play begins and unfolds.</p>
+      </div>
       <div class="criteria-wrap">
+        
             <details class="criterion">
               <summary>
                 <span class="criterion-number">01</span>
-                <span class="criterion-title">The purpose of the exhibit is clear without adult explanation.</span>
+                <span class="criterion-title" data-original="The purpose of the exhibit is clear without adult explanation.">The purpose of the exhibit is clear without adult explanation.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines whether children can understand what the exhibit is for by observing its layout, materials, and interactive elements. Reviewers should consider whether children are able to initiate play independently or whether repeated adult direction is required to explain the exhibit’s purpose.&lt;/p&gt;">
                 <p>This item examines whether children can understand what the exhibit is for by observing its layout, materials, and interactive elements. Reviewers should consider whether children are able to initiate play independently or whether repeated adult direction is required to explain the exhibit’s purpose.</p>
               </div>
             </details>
@@ -571,9 +378,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">02</span>
-                <span class="criterion-title">The exhibit’s design makes it clear where and how children can begin interacting without adult instruction.</span>
+                <span class="criterion-title" data-original="The exhibit’s design makes it clear where and how children can begin interacting without adult instruction.">The exhibit’s design makes it clear where and how children can begin interacting without adult instruction.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item focuses on entry into play. Reviewers should look for obvious starting points, inviting objects, or interactive elements that naturally draw children in. Clear affordances, such as objects meant to be touched, spaces meant to be entered, or elements that respond immediately to interaction, support intuitive use.&lt;/p&gt;">
                 <p>This item focuses on entry into play. Reviewers should look for obvious starting points, inviting objects, or interactive elements that naturally draw children in. Clear affordances, such as objects meant to be touched, spaces meant to be entered, or elements that respond immediately to interaction, support intuitive use.</p>
               </div>
             </details>
@@ -582,9 +389,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">03</span>
-                <span class="criterion-title">Key aspects of play and learning are usable without reading, or supported through visuals, symbols, or modeling when text is used intentionally.</span>
+                <span class="criterion-title" data-original="Key aspects of play and learning are usable without reading, or supported through visuals, symbols, or modeling when text is used intentionally.">Key aspects of play and learning are usable without reading, or supported through visuals, symbols, or modeling when text is used intentionally.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines whether reading is a gatekeeper to participation. Reviewers should consider whether children can engage meaningfully through observation, symbols, or physical interaction. When text is present, it should be supplemented with visuals, symbols, or modeling that support understanding across literacy levels.&lt;/p&gt;">
                 <p>This item examines whether reading is a gatekeeper to participation. Reviewers should consider whether children can engage meaningfully through observation, symbols, or physical interaction. When text is present, it should be supplemented with visuals, symbols, or modeling that support understanding across literacy levels.</p>
               </div>
             </details>
@@ -593,13 +400,14 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">04</span>
-                <span class="criterion-title">Children can successfully engage through trial and error.</span>
+                <span class="criterion-title" data-original="Children can successfully engage through trial and error.">Children can successfully engage through trial and error.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item focuses on whether the exhibit supports exploration without fear of failure. Reviewers should observe whether children can experiment, make mistakes, and adjust their actions without negative consequences or frustration. Exhibits that allow learning through doing support intuitive engagement.&lt;/p&gt;">
                 <p>This item focuses on whether the exhibit supports exploration without fear of failure. Reviewers should observe whether children can experiment, make mistakes, and adjust their actions without negative consequences or frustration. Exhibits that allow learning through doing support intuitive engagement.</p>
               </div>
             </details>
-            </div>
+            
+      </div>
     </section>
     
 
@@ -611,15 +419,18 @@
         </div>
         <div class="meta-pill">7 criteria</div>
       </div>
-      <div class="section-intro"><p>This principle focuses on how information within an exhibit is communicated and whether children and caregivers can perceive key information through more than one sensory channel. Reviewers should consider how information is conveyed during active play, not only through written instructions or signage. Information may include cues about how to begin, how to interact, how the exhibit responds to interaction, or how play progresses.</p></div>
+      <div class="section-intro">
+        <p>This principle focuses on how information within an exhibit is communicated and whether children and caregivers can perceive key information through more than one sensory channel. Reviewers should consider how information is conveyed during active play, not only through written instructions or signage. Information may include cues about how to begin, how to interact, how the exhibit responds to interaction, or how play progresses.</p>
+      </div>
       <div class="criteria-wrap">
+        
             <details class="criterion">
               <summary>
                 <span class="criterion-number">01</span>
-                <span class="criterion-title">Key information is available through more than one modality (visual, tactile, auditory).</span>
+                <span class="criterion-title" data-original="Key information is available through more than one modality (visual, tactile, auditory).">Key information is available through more than one modality (visual, tactile, auditory).</span>
               </summary>
-              <div class="criterion-body">
-                <p>This item examines whether essential information needed to engage with the exhibit is communicated using more than one sensory modality. Reviewers should look for information that can be perceived visually, through sound, or through touch. Examples may include visual indicators paired with physical interaction, auditory feedback paired with visual change, or tactile elements that communicate meaning through texture, movement, or resistance. The exhibit does not need to include all sensory modalities, but access to key information should not rely on only one.</p>
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines whether essential information needed to engage with the exhibit is communicated using more than one sensory modality. Reviewers should look for information that can be perceived visually, through sound, or through touch. Examples may include visual indicators paired with physical interaction, auditory feedback paired with visual change, or tactile elements that communicate meaning through texture, movement, or resistance. The exhibit does not need to include all sensory modalities, but use to key information should not rely on only one.&lt;/p&gt;">
+                <p>This item examines whether essential information needed to engage with the exhibit is communicated using more than one sensory modality. Reviewers should look for information that can be perceived visually, through sound, or through touch. Examples may include visual indicators paired with physical interaction, auditory feedback paired with visual change, or tactile elements that communicate meaning through texture, movement, or resistance. The exhibit does not need to include all sensory modalities, but use to key information should not rely on only one.</p>
               </div>
             </details>
             
@@ -627,9 +438,18 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">02</span>
-                <span class="criterion-title">Visual information is clearly distinguishable from its background and visible across lighting conditions, heights, and viewing distances within the exhibit.</span>
+                <span class="criterion-title" data-original="Visual information is clearly distinguishable from its background and visible across lighting conditions, heights, and viewing distances within the exhibit.">Visual information is clearly distinguishable from its background and visible across lighting conditions, heights, and viewing distances within the exhibit.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item addresses the usability of visual information within the exhibit environment. Reviewers should consider visual elements such as signage, symbols, icons, labels, color-coded features, wall graphics, or visual cues that guide interaction. Visual information should stand out from its background through contrast, size, spacing, or placement. Reviewers should observe whether visual information remains visible under typical museum lighting conditions and whether it can be perceived from child-height, seated, and standing positions. Visual information that is only visible from a single vantage point or requires close proximity may limit usability.&lt;/p&gt;
+&lt;p&gt;This criterion examines whether visual information within the exhibit can be easily perceived by a wide range of users, including children, caregivers, individuals with low vision, and those viewing the exhibit from different physical positions. Visual information includes written instructions, labels, icons, arrows, diagrams, color-coded indicators, and wall graphics that help explain how to use the exhibit or understand what is happening.&lt;/p&gt;
+&lt;p&gt;When evaluating this item, reviewers should consider the following:&lt;/p&gt;
+&lt;p&gt;Contrast: Text or symbols should clearly stand out from their background. For example, dark text on a light background or light text on a dark background is generally easier to read than similar colors placed together (e.g., blue text on green). Information should not blend into patterned walls or decorative graphics.&lt;/p&gt;
+&lt;p&gt;Size and readability: Text and symbols should be large enough to be read from a typical viewing distance without squinting or stepping unusually close. Reviewers can informally test this by standing where a child or caregiver would naturally stand and asking whether the text or symbol can be read comfortably.&lt;/p&gt;
+&lt;p&gt;Clarity and spacing: Letters, numbers, and symbols should not be crowded. Adequate spacing between lines and elements improves readability.&lt;/p&gt;
+&lt;p&gt;Height and position: Information should be visible from child-height and seated positions, not only at adult eye level. Reviewers should briefly crouch or sit (if feasible) to assess whether key information remains visible.&lt;/p&gt;
+&lt;p&gt;Lighting and glare: Information should remain readable under typical museum lighting. Reviewers should check whether glare from overhead lights, reflections on glossy surfaces, or shadows make text difficult to read.&lt;/p&gt;
+&lt;p&gt;Dependence on proximity: Visual information should not require users to move to a single exact position to understand it. If information is only legible when standing directly in front of a panel at very close range, use may be limited.&lt;/p&gt;
+&lt;p&gt;This criterion is met when most users can quickly and comfortably perceive important visual information without strain, repositioning, or adult assistance. It is not necessary for all visual information to be perfectly optimized, but key information needed to engage with the exhibit should be usable to a broad range of users.&lt;/p&gt;">
                 <p>This item addresses the usability of visual information within the exhibit environment. Reviewers should consider visual elements such as signage, symbols, icons, labels, color-coded features, wall graphics, or visual cues that guide interaction. Visual information should stand out from its background through contrast, size, spacing, or placement. Reviewers should observe whether visual information remains visible under typical museum lighting conditions and whether it can be perceived from child-height, seated, and standing positions. Visual information that is only visible from a single vantage point or requires close proximity may limit usability.</p>
 <p>This criterion examines whether visual information within the exhibit can be easily perceived by a wide range of users, including children, caregivers, individuals with low vision, and those viewing the exhibit from different physical positions. Visual information includes written instructions, labels, icons, arrows, diagrams, color-coded indicators, and wall graphics that help explain how to use the exhibit or understand what is happening.</p>
 <p>When evaluating this item, reviewers should consider the following:</p>
@@ -638,7 +458,7 @@
 <p>Clarity and spacing: Letters, numbers, and symbols should not be crowded. Adequate spacing between lines and elements improves readability.</p>
 <p>Height and position: Information should be visible from child-height and seated positions, not only at adult eye level. Reviewers should briefly crouch or sit (if feasible) to assess whether key information remains visible.</p>
 <p>Lighting and glare: Information should remain readable under typical museum lighting. Reviewers should check whether glare from overhead lights, reflections on glossy surfaces, or shadows make text difficult to read.</p>
-<p>Dependence on proximity: Visual information should not require users to move to a single exact position to understand it. If information is only legible when standing directly in front of a panel at very close range, access may be limited.</p>
+<p>Dependence on proximity: Visual information should not require users to move to a single exact position to understand it. If information is only legible when standing directly in front of a panel at very close range, use may be limited.</p>
 <p>This criterion is met when most users can quickly and comfortably perceive important visual information without strain, repositioning, or adult assistance. It is not necessary for all visual information to be perfectly optimized, but key information needed to engage with the exhibit should be usable to a broad range of users.</p>
               </div>
             </details>
@@ -647,9 +467,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">03</span>
-                <span class="criterion-title">Audio elements are clear and not overwhelming or startling.</span>
+                <span class="criterion-title" data-original="Audio elements are clear and not overwhelming or startling.">Audio elements are clear and not overwhelming or startling.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item focuses on the quality and appropriateness of auditory information. Reviewers should observe whether sounds used in the exhibit are clear, predictable, and supportive of engagement. Audio elements should not be excessively loud, sudden, or distressing, particularly when multiple users are present. Sound should enhance understanding or engagement rather than distract from play or create sensory overload.&lt;/p&gt;">
                 <p>This item focuses on the quality and appropriateness of auditory information. Reviewers should observe whether sounds used in the exhibit are clear, predictable, and supportive of engagement. Audio elements should not be excessively loud, sudden, or distressing, particularly when multiple users are present. Sound should enhance understanding or engagement rather than distract from play or create sensory overload.</p>
               </div>
             </details>
@@ -658,9 +478,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">04</span>
-                <span class="criterion-title">Important cues (e.g., start/stop, transitions) are communicated through more than one sensory modality.</span>
+                <span class="criterion-title" data-original="Important cues (e.g., start/stop, transitions) are communicated through more than one sensory modality.">Important cues (e.g., start/stop, transitions) are communicated through more than one sensory modality.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines how key cues within the exhibit are conveyed. Reviewers should look for cues that signal when interaction begins, changes, or ends, or that indicate how play progresses. These cues may be communicated visually, through touch or movement, through sound, or through a combination of sensory channels. The item is met when important cues can be perceived without relying on a single sensory modality.&lt;/p&gt;">
                 <p>This item examines how key cues within the exhibit are conveyed. Reviewers should look for cues that signal when interaction begins, changes, or ends, or that indicate how play progresses. These cues may be communicated visually, through touch or movement, through sound, or through a combination of sensory channels. The item is met when important cues can be perceived without relying on a single sensory modality.</p>
               </div>
             </details>
@@ -669,9 +489,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">05</span>
-                <span class="criterion-title">Signage or symbols are age-appropriate and easily interpreted.</span>
+                <span class="criterion-title" data-original="Signage or symbols are age-appropriate and easily interpreted.">Signage or symbols are age-appropriate and easily interpreted.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item refers to written, symbolic, or graphic information used to support understanding or guide interaction. Reviewers should consider whether signage uses developmentally appropriate language, symbols, or imagery and whether it can be interpreted quickly without adult explanation. This includes pictorial cues, icons, or simple visual prompts intended to support engagement rather than detailed instructional text.&lt;/p&gt;">
                 <p>This item refers to written, symbolic, or graphic information used to support understanding or guide interaction. Reviewers should consider whether signage uses developmentally appropriate language, symbols, or imagery and whether it can be interpreted quickly without adult explanation. This includes pictorial cues, icons, or simple visual prompts intended to support engagement rather than detailed instructional text.</p>
               </div>
             </details>
@@ -680,9 +500,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">06</span>
-                <span class="criterion-title">Tactile features (e.g., textures, raised elements, manipulatives) provide meaningful information or feedback during play.</span>
+                <span class="criterion-title" data-original="Tactile features (e.g., textures, raised elements, manipulatives) provide meaningful information or feedback during play.">Tactile features (e.g., textures, raised elements, manipulatives) provide meaningful information or feedback during play.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item focuses on whether tactile elements convey information rather than serving only as decorative features. Reviewers should look for textures, shapes, resistance, raised elements, or manipulatives that provide feedback, guide interaction, or help users understand how the exhibit responds to touch. Tactile features should support engagement by communicating information through physical interaction.&lt;/p&gt;">
                 <p>This item focuses on whether tactile elements convey information rather than serving only as decorative features. Reviewers should look for textures, shapes, resistance, raised elements, or manipulatives that provide feedback, guide interaction, or help users understand how the exhibit responds to touch. Tactile features should support engagement by communicating information through physical interaction.</p>
               </div>
             </details>
@@ -691,13 +511,14 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">07</span>
-                <span class="criterion-title">The exhibit provides at least one non-visual way to perceive play-related information (e.g., through touch or movement).</span>
+                <span class="criterion-title" data-original="The exhibit provides at least one non-visual way to perceive play-related information (e.g., through touch or movement).">The exhibit provides at least one non-visual way to perceive play-related information (e.g., through touch or movement).</span>
               </summary>
-              <div class="criterion-body">
-                <p>This item examines whether children can access information through means other than vision. Reviewers should observe whether touch, movement, resistance, or physical interaction communicates information that supports engagement. Examples may include feeling changes in position, resistance, vibration, or motion that help users understand how the exhibit functions during play.</p>
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines whether children can use information through means other than vision. Reviewers should observe whether touch, movement, resistance, or physical interaction communicates information that supports engagement. Examples may include feeling changes in position, resistance, vibration, or motion that help users understand how the exhibit functions during play.&lt;/p&gt;">
+                <p>This item examines whether children can use information through means other than vision. Reviewers should observe whether touch, movement, resistance, or physical interaction communicates information that supports engagement. Examples may include feeling changes in position, resistance, vibration, or motion that help users understand how the exhibit functions during play.</p>
               </div>
             </details>
-            </div>
+            
+      </div>
     </section>
     
 
@@ -709,15 +530,18 @@
         </div>
         <div class="meta-pill">5 criteria</div>
       </div>
-      <div class="section-intro"><p>This principle focuses on whether an exhibit allows children to experiment, make mistakes, and try again without unnecessary consequences such as injury, repeated failure, or exclusion from play. In a children’s museum, tolerance for error does not mean eliminating challenge. Developmentally meaningful play often includes risk, effort, uncertainty, and problem-solving. Reviewers should therefore consider whether the exhibit offers appropriate challenge while still providing safeguards, design features, and feedback that support safe exploration and sustained engagement.</p>
-<p>When using this section, reviewers should attend to both physical and participation-related “errors.” Physical errors may include slips, pinches, collisions, or misuse of components that create hazards. Participation-related errors may include confusing steps, unclear expectations, or fragile interactions that cause the activity to stop working when used in a typical, child-led way.</p></div>
+      <div class="section-intro">
+        <p>This principle focuses on whether an exhibit allows children to experiment, make mistakes, and try again without unnecessary consequences such as injury, repeated failure, or exclusion from play. In a children’s museum, tolerance for error does not mean eliminating challenge. Developmentally meaningful play often includes risk, effort, uncertainty, and problem-solving. Reviewers should therefore consider whether the exhibit offers appropriate challenge while still providing safeguards, design features, and feedback that support safe exploration and sustained engagement.</p>
+<p>When using this section, reviewers should attend to both physical and participation-related “errors.” Physical errors may include slips, pinches, collisions, or misuse of components that create hazards. Participation-related errors may include confusing steps, unclear expectations, or fragile interactions that cause the activity to stop working when used in a typical, child-led way.</p>
+      </div>
       <div class="criteria-wrap">
+        
             <details class="criterion">
               <summary>
                 <span class="criterion-number">01</span>
-                <span class="criterion-title">Children can explore freely without risk of injury from misuse.</span>
+                <span class="criterion-title" data-original="Children can explore freely without risk of injury from misuse.">Children can explore freely without risk of injury from misuse.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines whether typical child exploration, including non-linear or “unexpected” use, creates hazards. Reviewers should observe whether children can touch, push, pull, climb, build, take apart, or move through the space in ways that are common in play without encountering unsafe outcomes. Consider whether there are sharp edges, pinch points, unstable structures, tripping hazards, or components that can be pulled down or thrown in ways that could cause harm. This item is met when the exhibit is designed so that common play behaviors do not result in injury, while still allowing children to engage in physically active and challenging play.&lt;/p&gt;">
                 <p>This item examines whether typical child exploration, including non-linear or “unexpected” use, creates hazards. Reviewers should observe whether children can touch, push, pull, climb, build, take apart, or move through the space in ways that are common in play without encountering unsafe outcomes. Consider whether there are sharp edges, pinch points, unstable structures, tripping hazards, or components that can be pulled down or thrown in ways that could cause harm. This item is met when the exhibit is designed so that common play behaviors do not result in injury, while still allowing children to engage in physically active and challenging play.</p>
               </div>
             </details>
@@ -726,9 +550,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">02</span>
-                <span class="criterion-title">There is no single failure point that stops engagement.</span>
+                <span class="criterion-title" data-original="There is no single failure point that stops engagement.">There is no single failure point that stops engagement.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item focuses on whether engagement depends on one specific step, object, or correct sequence. Reviewers should look for whether play can continue even if a child skips a step, uses a component differently than intended, or interacts in a non-sequential manner. Exhibits with a single “right” input that must occur for the experience to function may limit participation for children who explore differently. This item is met when the exhibit remains usable and engaging even when play is varied, imperfect, or non-linear.&lt;/p&gt;">
                 <p>This item focuses on whether engagement depends on one specific step, object, or correct sequence. Reviewers should look for whether play can continue even if a child skips a step, uses a component differently than intended, or interacts in a non-sequential manner. Exhibits with a single “right” input that must occur for the experience to function may limit participation for children who explore differently. This item is met when the exhibit remains usable and engaging even when play is varied, imperfect, or non-linear.</p>
               </div>
             </details>
@@ -737,9 +561,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">03</span>
-                <span class="criterion-title">Mistakes lead to learning opportunities rather than frustration.</span>
+                <span class="criterion-title" data-original="Mistakes lead to learning opportunities rather than frustration.">Mistakes lead to learning opportunities rather than frustration.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines how the exhibit responds when children try something that does not work. Reviewers should observe whether children can adjust their approach, try again, or receive information that helps them re-engage. “Learning opportunities” may include clear feedback, visible options for trying a different strategy, or multiple pathways to engagement. The item is met when the exhibit supports persistence and problem-solving rather than repeatedly signaling failure or ending the play experience.&lt;/p&gt;">
                 <p>This item examines how the exhibit responds when children try something that does not work. Reviewers should observe whether children can adjust their approach, try again, or receive information that helps them re-engage. “Learning opportunities” may include clear feedback, visible options for trying a different strategy, or multiple pathways to engagement. The item is met when the exhibit supports persistence and problem-solving rather than repeatedly signaling failure or ending the play experience.</p>
               </div>
             </details>
@@ -748,9 +572,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">04</span>
-                <span class="criterion-title">The exhibit is durable and forgiving of rough or unexpected use.</span>
+                <span class="criterion-title" data-original="The exhibit is durable and forgiving of rough or unexpected use.">The exhibit is durable and forgiving of rough or unexpected use.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item focuses on whether the exhibit is designed to withstand typical child play behaviors, including high energy, repeated use, and trial-and-error interaction. Reviewers should consider whether components are sturdy, whether materials tolerate repetitive manipulation, and whether play elements remain functional even when used in ways that are not perfectly precise. An exhibit does not need to be indestructible, but it should not require careful, delicate interaction to participate. This item is met when the exhibit supports the reality of children’s play without frequent breakage, dislodging, or “do not touch” conditions.&lt;/p&gt;">
                 <p>This item focuses on whether the exhibit is designed to withstand typical child play behaviors, including high energy, repeated use, and trial-and-error interaction. Reviewers should consider whether components are sturdy, whether materials tolerate repetitive manipulation, and whether play elements remain functional even when used in ways that are not perfectly precise. An exhibit does not need to be indestructible, but it should not require careful, delicate interaction to participate. This item is met when the exhibit supports the reality of children’s play without frequent breakage, dislodging, or “do not touch” conditions.</p>
               </div>
             </details>
@@ -759,13 +583,14 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">05</span>
-                <span class="criterion-title">Clear boundaries exist where safety is a concern (e.g., edges, moving parts).</span>
+                <span class="criterion-title" data-original="Clear boundaries exist where safety is a concern (e.g., edges, moving parts).">Clear boundaries exist where safety is a concern (e.g., edges, moving parts).</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines whether hazards are anticipated and made understandable through design. Reviewers should look for whether areas that could present risk are clearly identifiable through physical barriers, visual contrast, tactile cues, spacing, or other signals that help children and caregivers recognize boundaries. Boundaries might include guardrails, buffers around moving parts, clear separation between active zones and walkways, or design cues that guide where bodies and hands should or should not go. The item is met when risk areas are clearly communicated and managed without relying solely on rules or adult enforcement.&lt;/p&gt;">
                 <p>This item examines whether hazards are anticipated and made understandable through design. Reviewers should look for whether areas that could present risk are clearly identifiable through physical barriers, visual contrast, tactile cues, spacing, or other signals that help children and caregivers recognize boundaries. Boundaries might include guardrails, buffers around moving parts, clear separation between active zones and walkways, or design cues that guide where bodies and hands should or should not go. The item is met when risk areas are clearly communicated and managed without relying solely on rules or adult enforcement.</p>
               </div>
             </details>
-            </div>
+            
+      </div>
     </section>
     
 
@@ -777,15 +602,18 @@
         </div>
         <div class="meta-pill">5 criteria</div>
       </div>
-      <div class="section-intro"><p>This principle focuses on whether physical effort within the exhibit is intentional, meaningful, and adjustable. In the context of children’s museum play, low physical effort does not mean minimal effort. Developmentally appropriate play often involves strength, endurance, balance, and coordination. Reviewers should therefore consider whether physical demands are aligned with the exhibit’s purpose and whether children can modulate their effort rather than being forced into sustained or excessive exertion to participate.</p>
-<p>Reviewers should attend to how effort is distributed across the exhibit, whether multiple pathways for engagement exist, and whether children are able to pause, shift roles, or re-engage without disengaging entirely.</p></div>
+      <div class="section-intro">
+        <p>This principle focuses on whether physical effort within the exhibit is intentional, meaningful, and adjustable. In the context of children’s museum play, low physical effort does not mean minimal effort. Developmentally appropriate play often involves strength, endurance, balance, and coordination. Reviewers should therefore consider whether physical demands are aligned with the exhibit’s purpose and whether children can modulate their effort rather than being forced into sustained or excessive exertion to participate.</p>
+<p>Reviewers should attend to how effort is distributed across the exhibit, whether multiple pathways for engagement exist, and whether children are able to pause, shift roles, or re-engage without disengaging entirely.</p>
+      </div>
       <div class="criteria-wrap">
+        
             <details class="criterion">
               <summary>
                 <span class="criterion-number">01</span>
-                <span class="criterion-title">Physical effort required is intentional and aligned with the play or learning goal.</span>
+                <span class="criterion-title" data-original="Physical effort required is intentional and aligned with the play or learning goal.">Physical effort required is intentional and aligned with the play or learning goal.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines whether physical demands are purposeful rather than incidental. Reviewers should consider whether pushing, pulling, lifting, climbing, or reaching supports the intended play experience or learning outcome. Effort should feel meaningful within the context of play, rather than serving as an unintended barrier to engagement.&lt;/p&gt;">
                 <p>This item examines whether physical demands are purposeful rather than incidental. Reviewers should consider whether pushing, pulling, lifting, climbing, or reaching supports the intended play experience or learning outcome. Effort should feel meaningful within the context of play, rather than serving as an unintended barrier to engagement.</p>
               </div>
             </details>
@@ -794,9 +622,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">02</span>
-                <span class="criterion-title">Children can modulate their level of physical effort (e.g., pace, duration, intensity).</span>
+                <span class="criterion-title" data-original="Children can modulate their level of physical effort (e.g., pace, duration, intensity).">Children can modulate their level of physical effort (e.g., pace, duration, intensity).</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item focuses on whether children have control over how much effort they exert. Reviewers should observe whether children can slow down, speed up, take breaks, or vary their intensity without being excluded from the activity. Exhibits that require continuous effort without opportunities for adjustment may limit participation for some users.&lt;/p&gt;">
                 <p>This item focuses on whether children have control over how much effort they exert. Reviewers should observe whether children can slow down, speed up, take breaks, or vary their intensity without being excluded from the activity. Exhibits that require continuous effort without opportunities for adjustment may limit participation for some users.</p>
               </div>
             </details>
@@ -805,9 +633,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">03</span>
-                <span class="criterion-title">Physically demanding elements are optional or paired with lower-effort ways to engage.</span>
+                <span class="criterion-title" data-original="Physically demanding elements are optional or paired with lower-effort ways to engage.">Physically demanding elements are optional or paired with lower-effort ways to engage.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines whether challenge is balanced with choice. Reviewers should look for alternative ways to participate that do not require the same level of strength, endurance, or coordination. This may include observational roles, alternative interaction points, or components that allow engagement without sustained physical exertion. The item is met when physically demanding elements enhance play but do not function as gatekeepers.&lt;/p&gt;">
                 <p>This item examines whether challenge is balanced with choice. Reviewers should look for alternative ways to participate that do not require the same level of strength, endurance, or coordination. This may include observational roles, alternative interaction points, or components that allow engagement without sustained physical exertion. The item is met when physically demanding elements enhance play but do not function as gatekeepers.</p>
               </div>
             </details>
@@ -816,9 +644,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">04</span>
-                <span class="criterion-title">Controls or manipulatives do not require excessive strength beyond the intended challenge.</span>
+                <span class="criterion-title" data-original="Controls or manipulatives do not require excessive strength beyond the intended challenge.">Controls or manipulatives do not require excessive strength beyond the intended challenge.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item focuses on fine and gross motor demands related to interaction. Reviewers should consider whether handles, levers, buttons, or movable components can be operated using a range of strength levels. Resistance may be intentional, but it should not exceed what is necessary for the play goal or require repeated force that leads to rapid fatigue.&lt;/p&gt;">
                 <p>This item focuses on fine and gross motor demands related to interaction. Reviewers should consider whether handles, levers, buttons, or movable components can be operated using a range of strength levels. Resistance may be intentional, but it should not exceed what is necessary for the play goal or require repeated force that leads to rapid fatigue.</p>
               </div>
             </details>
@@ -827,13 +655,14 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">05</span>
-                <span class="criterion-title">Opportunities to pause, rest, or observe are naturally available within the play space.</span>
+                <span class="criterion-title" data-original="Opportunities to pause, rest, or observe are naturally available within the play space.">Opportunities to pause, rest, or observe are naturally available within the play space.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines whether children can disengage temporarily without leaving the exhibit entirely. Reviewers should look for places to sit, lean, watch others, or interact in lower-effort ways. Opportunities for rest support self-regulation and allow children to re-engage when ready, particularly during physically active play.&lt;/p&gt;">
                 <p>This item examines whether children can disengage temporarily without leaving the exhibit entirely. Reviewers should look for places to sit, lean, watch others, or interact in lower-effort ways. Opportunities for rest support self-regulation and allow children to re-engage when ready, particularly during physically active play.</p>
               </div>
             </details>
-            </div>
+            
+      </div>
     </section>
     
 
@@ -845,14 +674,17 @@
         </div>
         <div class="meta-pill">5 criteria</div>
       </div>
-      <div class="section-intro"><p>This principle focuses on whether the physical layout of the exhibit supports access, movement, and interaction for children and caregivers with diverse body sizes, mobility patterns, and participation needs. Reviewers should consider not only whether space is technically available, but whether it is usable during real-world conditions such as crowding, shared play, and caregiver involvement.</p></div>
+      <div class="section-intro">
+        <p>This principle focuses on whether the physical layout of the exhibit supports use, movement, and interaction for children and caregivers with diverse body sizes, mobility patterns, and participation needs. Reviewers should consider not only whether space is technically available, but whether it is usable during real-world conditions such as crowding, shared play, and caregiver involvement.</p>
+      </div>
       <div class="criteria-wrap">
+        
             <details class="criterion">
               <summary>
                 <span class="criterion-number">01</span>
-                <span class="criterion-title">Clear pathways allow children and caregivers to approach without congestion.</span>
+                <span class="criterion-title" data-original="Clear pathways allow children and caregivers to approach without congestion.">Clear pathways allow children and caregivers to approach without congestion.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines whether pathways leading to and around the exhibit allow for movement without bottlenecks. Reviewers should observe whether children and caregivers can approach, circulate, and exit the space without blocking others or being forced to wait. Consider how strollers, mobility aids, and groups affect flow during typical use.&lt;/p&gt;">
                 <p>This item examines whether pathways leading to and around the exhibit allow for movement without bottlenecks. Reviewers should observe whether children and caregivers can approach, circulate, and exit the space without blocking others or being forced to wait. Consider how strollers, mobility aids, and groups affect flow during typical use.</p>
               </div>
             </details>
@@ -861,9 +693,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">02</span>
-                <span class="criterion-title">A clear turning space (approximately 60 inches in diameter or equivalent) is available to allow children using wheeled mobility aids to turn or reposition independently.</span>
+                <span class="criterion-title" data-original="A clear turning space (approximately 60 inches in diameter or equivalent) is available to allow children using wheeled mobility aids to turn or reposition independently.">A clear turning space (approximately 60 inches in diameter or equivalent) is available to allow children using wheeled mobility aids to turn or reposition independently.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item focuses on functional maneuverability. Reviewers should observe whether there is sufficient open floor space at key interaction points for turning or repositioning without assistance. Turning space should be available where children are expected to stop and engage, not only at the perimeter of the exhibit.&lt;/p&gt;">
                 <p>This item focuses on functional maneuverability. Reviewers should observe whether there is sufficient open floor space at key interaction points for turning or repositioning without assistance. Turning space should be available where children are expected to stop and engage, not only at the perimeter of the exhibit.</p>
               </div>
             </details>
@@ -872,9 +704,9 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">03</span>
-                <span class="criterion-title">Interactive components are within reachable heights for a range of users.</span>
+                <span class="criterion-title" data-original="Interactive components are within reachable heights for a range of users.">Interactive components are within reachable heights for a range of users.</span>
               </summary>
-              <div class="criterion-body">
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines whether children of different heights and body positions can reach and use interactive elements. Reviewers should consider whether components can be accessed from seated, standing, and child-height positions. Items that require sustained reaching or precise positioning may limit participation.&lt;/p&gt;">
                 <p>This item examines whether children of different heights and body positions can reach and use interactive elements. Reviewers should consider whether components can be accessed from seated, standing, and child-height positions. Items that require sustained reaching or precise positioning may limit participation.</p>
               </div>
             </details>
@@ -883,10 +715,10 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">04</span>
-                <span class="criterion-title">Multiple children can engage without crowding.</span>
+                <span class="criterion-title" data-original="Multiple children can engage without crowding.">Multiple children can engage without crowding.</span>
               </summary>
-              <div class="criterion-body">
-                <p>This item focuses on whether the exhibit supports shared use. Reviewers should observe whether multiple children can interact simultaneously without interfering with one another’s movement or access to the space/materials. Crowding that consistently limits participation may indicate insufficient space or too few interaction points.</p>
+              <div class="criterion-body" data-original="&lt;p&gt;This item focuses on whether the exhibit supports shared use. Reviewers should observe whether multiple children can interact simultaneously without interfering with one another’s movement or use. Crowding that consistently limits participation may indicate insufficient space or too few interaction points.&lt;/p&gt;">
+                <p>This item focuses on whether the exhibit supports shared use. Reviewers should observe whether multiple children can interact simultaneously without interfering with one another’s movement or use. Crowding that consistently limits participation may indicate insufficient space or too few interaction points.</p>
               </div>
             </details>
             
@@ -894,98 +726,128 @@
             <details class="criterion">
               <summary>
                 <span class="criterion-number">05</span>
-                <span class="criterion-title">The space supports adult participation in play.</span>
+                <span class="criterion-title" data-original="The space supports adult participation in play.">The space supports adult participation in play.</span>
               </summary>
-              <div class="criterion-body">
-                <p>This item examines whether caregivers can participate alongside children without obstructing access or flow. Reviewers should consider whether adults can kneel, sit, stand, or move with children comfortably and whether their presence supports rather than disrupts engagement. Adult participation is particularly important for younger children and children who benefit from shared play or assistance.</p>
+              <div class="criterion-body" data-original="&lt;p&gt;This item examines whether caregivers can participate alongside children without obstructing use or flow. Reviewers should consider whether adults can kneel, sit, stand, or move with children comfortably and whether their presence supports rather than disrupts engagement. Adult participation is particularly important for younger children and children who benefit from shared play or assistance.&lt;/p&gt;">
+                <p>This item examines whether caregivers can participate alongside children without obstructing use or flow. Reviewers should consider whether adults can kneel, sit, stand, or move with children comfortably and whether their presence supports rather than disrupts engagement. Adult participation is particularly important for younger children and children who benefit from shared play or assistance.</p>
               </div>
             </details>
-            </div>
+            
+      </div>
     </section>
     
-    </main>
-  </div>
+  </main>
+</div>
 
-  <script>
-    const input = document.getElementById('searchInput');
-    const criteria = Array.from(document.querySelectorAll('.criterion'));
+<script>
+(function () {
+  const input = document.getElementById('searchInput');
+  const criteria = Array.from(document.querySelectorAll('.criterion'));
+  const sections = Array.from(document.querySelectorAll('.section-card'));
+  const hero = document.querySelector('.hero');
+  const jumpGrid = document.querySelector('.jump-grid');
+  const sidebar = document.querySelector('.sidebar');
+  const mobileNavToggle = document.getElementById('mobileNavToggle');
+  const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+  const navLinks = Array.from(document.querySelectorAll('.nav-link'));
 
-    function highlightText(el, query) {
-      const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
-      const textNodes = [];
-      while (walker.nextNode()) textNodes.push(walker.currentNode);
-      textNodes.forEach(node => {
-        const parent = node.parentNode;
-        if (!parent) return;
-        if (parent.tagName === 'MARK') return;
-      });
+  function escapeRegExp(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function clearHighlights(card) {
+    const title = card.querySelector('.criterion-title');
+    const body = card.querySelector('.criterion-body');
+    if (title && title.dataset.original) title.innerHTML = title.dataset.original;
+    if (body && body.dataset.original) body.innerHTML = body.dataset.original;
+  }
+
+  function applyHighlights(card, query) {
+    if (!query) return;
+    const safe = escapeRegExp(query);
+    const regex = new RegExp('(' + safe + ')', 'gi');
+
+    const title = card.querySelector('.criterion-title');
+    const body = card.querySelector('.criterion-body');
+
+    if (title && title.dataset.original) {
+      title.innerHTML = title.dataset.original.replace(regex, '<mark>$1</mark>');
     }
-
-    function clearMarks(container) {
-      container.querySelectorAll('mark').forEach(mark => {
-        const text = document.createTextNode(mark.textContent);
-        mark.replaceWith(text);
-      });
-      container.normalize();
+    if (body && body.dataset.original) {
+      body.innerHTML = body.dataset.original.replace(regex, '<mark>$1</mark>');
     }
+  }
 
-    function applyMarks(container, query) {
-      if (!query) return;
-      const regex = new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'ig');
+  function closeMobileNav() {
+    if (sidebar) sidebar.classList.remove('open');
+    if (mobileNavOverlay) mobileNavOverlay.classList.remove('open');
+  }
 
-      const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
-        acceptNode(node) {
-          if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-          if (node.parentElement && ['SCRIPT','STYLE','MARK'].includes(node.parentElement.tagName)) return NodeFilter.FILTER_REJECT;
-          return NodeFilter.FILTER_ACCEPT;
-        }
-      });
+  function openMobileNav() {
+    if (sidebar) sidebar.classList.add('open');
+    if (mobileNavOverlay) mobileNavOverlay.classList.add('open');
+  }
 
-      const nodes = [];
-      while (walker.nextNode()) nodes.push(walker.currentNode);
-
-      nodes.forEach(node => {
-        const text = node.nodeValue;
-        if (!regex.test(text)) {
-          regex.lastIndex = 0;
-          return;
-        }
-        regex.lastIndex = 0;
-        const frag = document.createDocumentFragment();
-        let lastIndex = 0;
-        text.replace(regex, (match, offset) => {
-          frag.appendChild(document.createTextNode(text.slice(lastIndex, offset)));
-          const mark = document.createElement('mark');
-          mark.textContent = match;
-          frag.appendChild(mark);
-          lastIndex = offset + match.length;
-        });
-        frag.appendChild(document.createTextNode(text.slice(lastIndex)));
-        node.parentNode.replaceChild(frag, node);
-      });
-    }
-
-    input.addEventListener('input', (e) => {
-      const q = e.target.value.trim().toLowerCase();
-
-      criteria.forEach(card => {
-        clearMarks(card);
-        const text = card.textContent.toLowerCase();
-        const match = !q || text.includes(q);
-        card.style.display = match ? '' : 'none';
-        if (match && q) {
-          applyMarks(card, q);
-          card.open = true;
-        }
-      });
-
-      document.querySelectorAll('.section-card').forEach(section => {
-        const visibleCriteria = section.querySelectorAll('.criterion:not([style*="display: none"])').length;
-        const hasNoCriteria = section.querySelectorAll('.criterion').length === 0;
-        section.style.display = (hasNoCriteria || visibleCriteria > 0 || !q) ? '' : 'none';
-      });
+  if (mobileNavToggle) {
+    mobileNavToggle.addEventListener('click', function () {
+      if (sidebar && sidebar.classList.contains('open')) {
+        closeMobileNav();
+      } else {
+        openMobileNav();
+      }
     });
-  </script>
+  }
+
+  if (mobileNavOverlay) {
+    mobileNavOverlay.addEventListener('click', closeMobileNav);
+  }
+
+  navLinks.forEach(function (link) {
+    link.addEventListener('click', closeMobileNav);
+  });
+
+  function runSearch(value) {
+    const query = (value || '').trim().toLowerCase();
+    const searching = query.length > 0;
+
+    criteria.forEach(function (card) {
+      clearHighlights(card);
+      const text = card.textContent.toLowerCase();
+      const match = !searching || text.indexOf(query) !== -1;
+
+      card.style.display = match ? '' : 'none';
+
+      if (match && searching) {
+        applyHighlights(card, query);
+        card.open = true;
+      } else if (!searching) {
+        card.open = false;
+      }
+    });
+
+    sections.forEach(function (section) {
+      const cards = Array.from(section.querySelectorAll('.criterion'));
+      const visibleCards = cards.filter(function (card) {
+        return card.style.display !== 'none';
+      });
+
+      if (searching) {
+        section.style.display = cards.length > 0 && visibleCards.length > 0 ? '' : 'none';
+      } else {
+        section.style.display = '';
+      }
+    });
+
+    if (hero) hero.style.display = searching ? 'none' : '';
+    if (jumpGrid) jumpGrid.style.display = searching ? 'none' : '';
+  }
+
+  if (input) {
+    input.addEventListener('input', function (event) {
+      runSearch(event.target.value);
+    });
+  }
+})();
+</script>
 </body>
 </html>
-
